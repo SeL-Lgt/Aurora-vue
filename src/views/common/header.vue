@@ -7,7 +7,7 @@
     </div>
     <el-row>
       <el-col :span="19">
-        智能采购系统
+        Aurora
       </el-col>
       <el-col :offset="3" :span="1">
         <el-button type="text" @click="officeExit">

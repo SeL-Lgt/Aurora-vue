@@ -4,7 +4,7 @@
     </div>
     <el-card class="myCard" shadow="always">
       <div slot="header">
-        <h1 style="text-align: center">采购系统</h1>
+        <h1 style="text-align: center">Aurora</h1>
       </div>
       <el-form :model="form" :rules="form" :ref="form">
         <el-form-item prop="account">
