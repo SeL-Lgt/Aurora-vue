@@ -1,0 +1,18 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+#m-header {
+  background: #242f42;
+}
+
+.el-form {
+  width: 100%;
+}
+
+.el-scrollbar__wrap {
+  overflow-x: hidden;
+}
+
+/*# sourceMappingURL=main.css.map */
