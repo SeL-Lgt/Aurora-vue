@@ -72,15 +72,15 @@
               },
               {
                 index: 'productData',
-                title: '产品数据',
+                title: '产品数据12312312',
               },
               {
                 index: 'purchaseData',
-                title: '采购数据',
+                title: '采购数据12312312',
               },
               {
                 index: 'supplierData',
-                title: '供应商数据',
+                title: '供应商数据12312231',
               }
             ]
           }
