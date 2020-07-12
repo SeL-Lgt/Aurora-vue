@@ -60,7 +60,7 @@
        */
       login() {
         console.log(this.form);
-        this.$api.axiosPost("/login/loginUser", {
+        this.$api.axiosPost("/admin/login/", {
           account: this.form.account,
           password: this.form.password,
           authority: this.form.authority

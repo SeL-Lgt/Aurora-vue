@@ -59,7 +59,7 @@
           {
             icon: 'el-icon-s-home',
             index: '/home',
-            title: '系统首页'
+            title: '系统首页123123'
           },
           {
             icon: 'el-icon-s-order',

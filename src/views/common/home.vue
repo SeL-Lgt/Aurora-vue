@@ -2,12 +2,15 @@
   <div id="home">
     <vHeader></vHeader>
     <el-container>
+
       <el-aside width="200px">
         <vSidebar></vSidebar>
       </el-aside>
+
       <el-main>
         <router-view></router-view>
       </el-main>
+
     </el-container>
   </div>
 </template>

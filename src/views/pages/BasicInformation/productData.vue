@@ -104,6 +104,10 @@
 </script>
 
 <style scoped>
+  .el-card{
+    /*padding:80px;*/
+  }
+
   .el-form >>> .el-input {
     width: 70%;
   }

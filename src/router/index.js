@@ -20,7 +20,7 @@ export default new Router({
       path: '/',
       meta: {title: '首页'},
       component: () => import('@/views/common/home'),
-      redirect: '/login',
+      // redirect: '/login',
       children: [
         home,
         basicInformation
@@ -41,5 +41,5 @@ export default new Router({
       redirect: '/404'
     }
   ],
-  mode: 'history'
+  mode: 'hash'
 });
