@@ -4,6 +4,7 @@ import Router from 'vue-router';
 Vue.use(Router)
 import home from './model/home'
 import basicInformation from './model/basicInformation';
+import interfaceStatus from "./model/interfaceStatus";
 
 /**
  * 重写路由的push方法
@@ -20,19 +21,20 @@ export default new Router({
       path: '/',
       meta: {title: '首页'},
       component: () => import('@/views/common/home'),
-      // redirect: '/login',
+      redirect: '/login',
       children: [
         home,
-        basicInformation
+        basicInformation,
+        interfaceStatus
       ]
     }, {
       path: '/login',
-      name:'login',
+      name: 'login',
       meta: {title: '登录'},
       component: () => import('@/views/common/login')
     }, {
       path: '/registered',
-      name:'registered',
+      name: 'registered',
       meta: {title: '注册'},
       component: () => import('@/views/common/registered')
     },

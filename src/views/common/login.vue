@@ -3,26 +3,20 @@
     <div class="sky" ref="sky">
       <canvas ref="canvas"></canvas>
       <el-card class="myCard" shadow="always">
-        <div slot="header">
-          <h1 style="text-align: center">Aurora</h1>
-        </div>
+        <h1 style="color:#fff;text-align: center;font-size: 3em">Login</h1>
         <el-form :model="form" :rules="form" :ref="form">
           <el-form-item prop="account">
-            <el-input v-model="form.account">
-              <template slot="prepend"><i class="el-icon-s-custom"></i></template>
+            <el-input v-model="form.account" placeholder="username">
             </el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input v-model="form.password" type="password">
-              <template slot="prepend"><i class="el-icon-postcard"></i></template>
+            <el-input v-model="form.password" placeholder="password" type="password">
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="login">登录</el-button>
-            <el-button @click="resetForm(form)">重置</el-button>
+            <el-button class="SignButton" @click="$router.push({name:'home'})">Sign in</el-button>
           </el-form-item>
         </el-form>
-        <el-link type="danger" :underline="false" @click="$router.push({name:'registered'})">没有账号?注册一下</el-link>
       </el-card>
     </div>
   </div>
@@ -52,7 +46,7 @@
           _width = _this.$refs.sky.width,
           _height = _this.$refs.sky.height,
           stars = [],
-          initStarsPopulation = 300;
+          initStarsPopulation = 900;
 
 
       function Star(id, x, y) {
@@ -61,7 +55,7 @@
         this.y = y;
         this.r = Math.floor(Math.random() * 2) + 1;
         const alpha = (Math.floor(Math.random() * 10) + 1) / 10 / 2;
-        this.color = "rgba(255,255,255," + alpha + ")"
+        this.color = "rgba(255,255,0," + alpha + ")"
       }
 
       Star.prototype.draw = function () {
@@ -114,7 +108,8 @@
 
 <style scoped>
   .sky {
-    background: radial-gradient(220% 105% at top center, #1b2947 10%, #75517d 40%, #e96f92 65%, #f7f7b8);
+    /*background: radial-gradient(220% 105% at top center, #1b2947 10%, #75517d 40%, #e96f92 65%, #f7f7b8);*/
+    background: radial-gradient(220% 105% at top center, #011195 10%, #0d5caf 40%, #494acb 65%, #5c3087);
     height: 100vh;
     overflow: hidden;
   }
@@ -132,13 +127,12 @@
   .star {
     width: 2px;
     height: 2px;
-    background: #f7f7b8;
+    background: #f5fd00;
     position: absolute;
     top: 0;
     left: 0;
     backface-visibility: hidden;
   }
-
 
   .myCard {
     position: absolute;
@@ -146,11 +140,56 @@
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
     width: 25%;
-    background-color: rgba(255, 255, 255, .3);
-    border: 2px solid white;
+    background-color: rgba(255, 255, 255, 0.09);
+    border: 0px solid white;
     box-shadow: 20px 20px 20px rgba(0, 0, 0, .5);
-    border-radius: 20px;
     z-index: 100;
+  }
+
+  .el-card >>> .el-card__body {
+    padding: 40px;
+  }
+
+  .el-input {
+    border-bottom: 1px solid #fff;
+  }
+
+  .el-input >>> .el-input__inner {
+    border: 0px;
+    background: #fff0;
+    color: #fff;
+  }
+
+  .el-input >>> .el-input__inner::placeholder {
+    text-transform: uppercase;
+  }
+
+  .el-form {
+    width: 80%;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+  }
+
+  .el-form-item >>> .el-form-item__content {
+    text-align: center;
+  }
+
+  .el-form-item {
+    margin-top: 44px;
+    margin-bottom: 0px;
+  }
+
+  .SignButton {
+    color: white;
+    border: 0px;
+    width: 100%;
+    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+    text-transform: uppercase;
+  }
+  .SignButton:hover{
+    color: #22affa;
   }
 
   @keyframes rotate {

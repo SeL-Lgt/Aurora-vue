@@ -83,6 +83,11 @@
                 title: '供应商数据12312231',
               }
             ]
+          },
+          {
+            icon: 'el-icon-s-home',
+            index: '/interfaceStatus',
+            title: '设备接口状态'
           }
         ]
       }
