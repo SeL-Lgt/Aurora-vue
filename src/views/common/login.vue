@@ -108,7 +108,6 @@
 
 <style scoped>
   .sky {
-    /*background: radial-gradient(220% 105% at top center, #1b2947 10%, #75517d 40%, #e96f92 65%, #f7f7b8);*/
     background: radial-gradient(220% 105% at top center, #011195 10%, #0d5caf 40%, #494acb 65%, #5c3087);
     height: 100vh;
     overflow: hidden;

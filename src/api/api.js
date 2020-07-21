@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default {
-  url: 'http://localhost:8080',
+  url: 'http://li-say.top:5000',
 
   axiosRequest: function (api, method, data, form) {
     let that = this;
