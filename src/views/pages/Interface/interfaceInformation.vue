@@ -157,7 +157,7 @@
        * 获取
        */
       getInterface() {
-        this.$api.axiosGetJson("/RestconfApiDataFunctionOne2").then(res => {
+        this.$api.axiosGetJson("/RestconfApiDataFunctionOne").then(res => {
           this.tableData = res;
           console.log(res);
         })
