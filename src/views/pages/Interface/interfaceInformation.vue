@@ -37,7 +37,7 @@
         </el-table-column>
         <el-table-column align="center" fixed="right" label="操作">
           <template slot-scope="scope">
-            <el-button type="text" @click="putInterface(scope.row)">编辑</el-button>
+            <el-button type="text" @click="dialogShow(scope.row)">编辑</el-button>
           </template>
         </el-table-column>
 
@@ -51,26 +51,29 @@
 
     <el-dialog title="编辑信息" :visible.sync="dialog" width="30%" center>
       <el-form :ref="tempData" :model="tempData" label-width="100px" size="medium">
-        <el-form-item label="设备名字" prop="name">
+        <el-form-item label="接口名字" prop="name">
           <el-input v-model="tempData.name" disabled></el-input>
         </el-form-item>
-        <el-form-item label="网卡" prop="ipv4">
-          <el-select v-model="tempData.ipv6"  placeholder="请选择网卡">
-            <el-option v-for="(item,index) in tempData.ipv4" :key="index" :label="'网卡'+JSON.stringify(index+1)" :value="JSON.stringify(index+1)">
-            </el-option>
-          </el-select>
+        <div v-for="(itemOne,indexOne) in tempData.ipv4" :key="indexOne">
+          <el-form-item label="ipv4地址" :prop="`ipv4[${indexOne}].ip`">
+            <el-input v-model="tempData.ipv4[indexOne].ip"></el-input>
+          </el-form-item>
+          <el-form-item label="子网掩码" :prop="`ipv4[${indexOne}].netmask`">
+            <el-input v-model="tempData.ipv4[indexOne].netmask"></el-input>
+          </el-form-item>
+        </div>
+        <el-form-item label="接口状态" prop="enabled">
+          <el-switch
+              v-model="tempData.enabled"
+          >
+          </el-switch>
         </el-form-item>
-        <el-form-item label="ipv4地址">
-          <el-input></el-input>
+        <el-form-item label="接口描述" prop="description">
+          <el-input v-model="tempData.description"></el-input>
         </el-form-item>
-        <el-form-item label="子网掩码">
-          <el-input></el-input>
-        </el-form-item>
-        <el-form-item label="接口状态">
-          <el-input></el-input>
-        </el-form-item>
-        <el-form-item label="接口描述">
-          <el-input></el-input>
+        <el-form-item>
+          <el-button type="primary">修改</el-button>
+          <el-button @click="resetForm(tempData)">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -88,7 +91,7 @@
             title: '接口描述',
             key: 'description'
           }, {
-            title: '设备名字',
+            title: '接口名字',
             key: 'name'
           }, {
             title: 'ipv4地址',
@@ -99,9 +102,6 @@
           }, {
             title: '接口类型',
             key: 'type'
-          }, {
-            title: 'mac地址',
-            key: 'macAddress'
           }, {
             title: '接口状态',
             key: 'enabled'
@@ -145,14 +145,20 @@
             ]
           }
         ],
-        tempData: {
-        }
+        tempData: {}
       }
     },
     created() {
       this.getInterface();
     },
     methods: {
+      /**
+       * 显示编辑页
+       */
+      dialogShow(val) {
+        this.tempData = JSON.parse(JSON.stringify(val));
+        this.dialog = true;
+      },
       /**
        * 获取
        */
@@ -162,10 +168,23 @@
           console.log(res);
         })
       },
-      putInterface(val){
-        this.tempData = JSON.parse(JSON.stringify(val));
-        console.log(this.tempData.ipv4);
-        this.dialog=true;
+      /**
+       * 修改提交
+       */
+      postInterface() {
+        this.$api.axiosPostJson("/RestconfApiDataFunctionOne", {
+          name: this.tempData.name,
+          enabled:this.tempData.enabled,
+          type:this.tempData.type
+        }).then(res => {
+          console.log(res);
+        })
+      },
+      /**
+       * 重置
+       */
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
       }
     }
   }
