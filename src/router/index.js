@@ -5,7 +5,7 @@ Vue.use(Router)
 import home from './model/home'
 import basicInformation from './model/basicInformation';
 import interfaceStatus from "./model/interfaceStatus";
-
+import configuration from "./model/configuration";
 /**
  * 重写路由的push方法
  * 但会隐藏路由的错误信息
@@ -25,7 +25,8 @@ export default new Router({
       children: [
         home,
         basicInformation,
-        interfaceStatus
+        interfaceStatus,
+        configuration
       ]
     }, {
       path: '/login',

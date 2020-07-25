@@ -72,11 +72,12 @@
           <el-input v-model="tempData.description"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">修改</el-button>
+          <el-button type="primary" @click="postInterface">修改</el-button>
           <el-button @click="resetForm(tempData)">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
+    <el-alert v-show="alertType=='414'">思科api请求超时</el-alert>
   </div>
 </template>
 
@@ -85,6 +86,7 @@
     name: "interfaceInformation",
     data() {
       return {
+        alertType: null,
         dialog: false,//抽屉
         tableListName: [
           {
@@ -158,12 +160,20 @@
       dialogShow(val) {
         this.tempData = JSON.parse(JSON.stringify(val));
         this.dialog = true;
+        if (this.tempData.ipv4 === null) {
+          this.tempData.ipv4 = new Array();
+          this.tempData.ipv4.push({'ip': null, 'netmask': null});
+          console.log(this.tempData.ipv4);
+        }
       },
       /**
        * 获取
        */
       getInterface() {
         this.$api.axiosGetJson("/RestconfApiDataFunctionOne").then(res => {
+          if (res == 414) {
+            this.alertType = res;
+          }
           this.tableData = res;
           console.log(res);
         })
@@ -172,11 +182,17 @@
        * 修改提交
        */
       postInterface() {
-        this.$api.axiosPostJson("/RestconfApiDataFunctionOne", {
+        // let data=[];
+        // data=[{
+        //
+        // }]
+        this.$api.axiosPostJson("/RestconfApiDataFunctionOne", [{
           name: this.tempData.name,
-          enabled:this.tempData.enabled,
-          type:this.tempData.type
-        }).then(res => {
+          enabled: this.tempData.enabled,
+          type: this.tempData.type,
+          description: this.tempData.description,
+          ipv4: this.tempData.ipv4
+        }]).then(res => {
           console.log(res);
         })
       },

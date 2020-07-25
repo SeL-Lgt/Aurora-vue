@@ -88,6 +88,11 @@
             icon: 'el-icon-s-home',
             index: '/interfaceStatus',
             title: '设备接口状态'
+          },
+          {
+            icon: 'el-icon-s-home',
+            index: '/configuration',
+            title: '配置模板'
           }
         ]
       }
