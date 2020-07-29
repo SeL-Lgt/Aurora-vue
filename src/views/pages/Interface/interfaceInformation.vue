@@ -77,7 +77,6 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-alert v-show="alertType=='414'">思科api请求超时</el-alert>
   </div>
 </template>
 
@@ -108,45 +107,7 @@
             title: '接口状态',
             key: 'enabled'
           }],
-        tableData: [
-          {
-            name: "1",
-            description: "MANAGEMENT INTERFACE - DON'T TOUCH ME",
-            enabled: true,
-            ipv4: [
-              {
-                ip: "10.10.20.48",
-                netmask: "255.255.255.0"
-              },
-              {
-                ip: "10.10.20.49",
-                netmask: "255.255.255.0"
-              },
-              {
-                ip: "10.10.20.50",
-                netmask: "255.255.255.0"
-              }
-            ]
-          }, {
-            name: "2",
-            enabled: false,
-            description: "MANAGEMENT INTERFACE - DON'T TOUCH ME",
-            ipv4: [
-              {
-                ip: "10.10.20.70",
-                netmask: "255.255.255.2"
-              },
-              {
-                ip: "10.10.20.80",
-                netmask: "255.255.255.0"
-              },
-              {
-                ip: "10.10.20.90",
-                netmask: "255.255.255.1"
-              }
-            ]
-          }
-        ],
+        tableData: [],
         tempData: {}
       }
     },
@@ -194,6 +155,12 @@
           ipv4: this.tempData.ipv4
         }]).then(res => {
           console.log(res);
+          if (res == 400) {
+            this.$message({message: "修改失败", type: "error"});
+          } else {
+            this.reload();
+            this.$message({message: "修改成功", type: "success"});
+          }
         })
       },
       /**
