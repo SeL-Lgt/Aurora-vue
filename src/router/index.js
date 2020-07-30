@@ -47,5 +47,5 @@ export default new Router({
       redirect: '/404'
     }
   ],
-  mode: 'hash'
+  mode: 'history'
 });
