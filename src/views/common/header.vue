@@ -7,7 +7,7 @@
     </div>
     <el-row>
       <el-col :span="19">
-        Aurora
+        基于Restconf协议的自动化管理CSR1kv系统
       </el-col>
       <el-col :offset="3" :span="1">
         <el-button type="text" @click="officeExit">

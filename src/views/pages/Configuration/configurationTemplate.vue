@@ -108,9 +108,12 @@
           <el-input v-model="templateForm.modelname"></el-input>
         </el-form-item>
         <el-form-item label="logo" prop="logo">
-          <el-select v-model.number="templateForm.logo" placeholder="请选择logo">
-            <el-option v-for="(itemImg,indexImg) in imgArray" :key="indexImg" :label="itemImg.name"
-                       :value="itemImg.id"></el-option>
+          <el-select v-model="templateForm.logo" placeholder="请选择logo">
+            <el-option v-for="(itemImg,indexImg) in imgArray"
+                       :key="indexImg"
+                       :label="itemImg.name"
+                       :value="itemImg.id"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="模板介绍" prop="remakes">

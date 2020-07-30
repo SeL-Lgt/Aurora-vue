@@ -59,40 +59,22 @@
           {
             icon: 'el-icon-s-home',
             index: '/home',
-            title: '系统首页123123'
+            title: '系统首页'
           },
           {
-            icon: 'el-icon-s-order',
-            index: '/basicInformation',
-            title: '基本资料',
-            subs: [
-              {
-                index: 'customerData',
-                title: '客户资料'
-              },
-              {
-                index: 'productData',
-                title: '产品数据12312312',
-              },
-              {
-                index: 'purchaseData',
-                title: '采购数据12312312',
-              },
-              {
-                index: 'supplierData',
-                title: '供应商数据12312231',
-              }
-            ]
-          },
-          {
-            icon: 'el-icon-s-home',
+            icon: 'el-icon-s-data',
             index: '/interfaceStatus',
             title: '设备接口状态'
           },
           {
-            icon: 'el-icon-s-home',
+            icon: 'el-icon-s-check',
             index: '/configuration',
             title: '配置模板'
+          },
+          {
+            icon: 'el-icon-s-promotion',
+            index: '/ddos',
+            title: 'ddos防护攻击'
           }
         ]
       }

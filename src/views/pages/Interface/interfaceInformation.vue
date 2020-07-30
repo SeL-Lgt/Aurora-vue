@@ -4,7 +4,7 @@
       <!--
          表格位置
      -->
-      <el-table :data="tableData">
+      <el-table :data="tableData" empty-text="正在请求数据，请稍等">
         <div v-for="(item,index) in tableListName" :key="index">
           <el-table-column
               :prop="item.key"
@@ -42,11 +42,6 @@
         </el-table-column>
 
       </el-table>
-      <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="1000">
-      </el-pagination>
     </el-card>
 
     <el-dialog title="编辑信息" :visible.sync="dialog" width="30%" center>
