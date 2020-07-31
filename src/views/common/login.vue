@@ -5,7 +5,6 @@
       <el-card class="myCard" shadow="always">
         <h1 style="color:#fff;text-align: center;font-size: 3em">Login</h1>
         <el-form :model="form" :rules="form" :ref="form">
-          <p>账号:admin&nbsp;&nbsp;密码:admin</p>
           <el-form-item prop="account">
             <el-input v-model="form.account" placeholder="username" @blur="inputUserBlur()"
                       @keyup.enter.native="loginBtn()">
@@ -38,6 +37,9 @@
         starsCount: 800,//星星数量
         distance: 800,//间隔
       }
+    },
+    created() {
+      this.title();
     },
     mounted() {
       let _this = this;
@@ -130,7 +132,7 @@
         if (this.inputUserBlur() && this.inputPsdBlur()) {
           this.form.account = this.form.account.toLowerCase();
           this.form.password = this.form.password.toLowerCase();
-          if (this.form.account != 'admin' && this.form.password != 'admin') {
+          if (this.form.account != 'admin' || this.form.password != 'admin') {
             this.$message({
               message: '账号或密码不正确',
               type: 'error'
@@ -146,7 +148,15 @@
             this.$router.push('/home')
           }
         }
-      }
+      },
+      title() {
+        const h = this.$createElement;
+
+        this.$notify({
+          title: '本系统默认账号',
+          message: h('i', { style: 'color: teal'}, '账号：admin  密码：admin')
+        });
+      },
 
     }
 

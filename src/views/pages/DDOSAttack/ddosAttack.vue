@@ -82,33 +82,30 @@
             key: 'intoerror'
           },
           {
-            title: 'id',
+            title: '日志编号',
             key: 'id'
           }, {
             title: '时间',
             key: 'time'
-          }, {
-            title: '等级',
-            key: 'grade'
           }],
         intoErrorListName: [
           {
-            title: '日志编号',
+            title: '接口编号',
             key: 'id'
           }, {
-            title: 'order',
+            title: '警告等级',
             key: 'order'
           }, {
-            title: 'rate',
+            title: '速率(kb/s)',
             key: 'rate'
           }, {
-            title: 'name',
+            title: '接口名称',
             key: 'name'
           }, {
-            title: 'news',
+            title: '接口检测信息',
             key: 'news'
           }, {
-            title: 'operation',
+            title: '系统自动执行操作',
             key: 'operation'
           }],
         tableData: [],
@@ -118,7 +115,6 @@
       Open() {
         let timer = setInterval(() => {
           if (this.status == true) {
-            console.log("2");
             this.getDDOS();
           } else
             this.fun(timer);
@@ -132,7 +128,6 @@
       getDDOS() {
         if (this.status == true) {
           this.$api.axiosGetJson("/RestconfApiDataFunctionThree").then(res => {
-            console.log("1");
             console.log(res);
             this.tableData = res;
           })
