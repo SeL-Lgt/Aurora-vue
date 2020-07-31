@@ -10,7 +10,8 @@ export default {
     path: 'ddosAttack',
     name: 'ddosAttack',
     meta: {
-      title: "ddos防护攻击"
+      title: "ddos防护攻击",
+      requireAuth: true
     },
     component: ddosAttack
   }]

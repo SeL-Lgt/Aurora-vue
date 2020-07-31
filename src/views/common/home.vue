@@ -1,9 +1,9 @@
 <template>
-  <div id="home">
+  <div id="home" style="height:100%">
     <vHeader></vHeader>
-    <el-container>
+    <el-container style="height:100%">
 
-      <el-aside width="200px">
+      <el-aside width="200px" style="height:100%">
         <vSidebar></vSidebar>
       </el-aside>
 
@@ -33,5 +33,11 @@
 </script>
 
 <style scoped>
+  .el-aside {
+    position: relative;
+    height: 93vh;
+    overflow: hidden;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
 
+  }
 </style>

@@ -33,6 +33,7 @@
         this.collapse = !this.collapse;
       },
       officeExit(){
+        localStorage.clear();
         this.$message({message: "退出成功", type: "success"});
         this.$router.push({name:'login'});
       }

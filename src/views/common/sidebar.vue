@@ -75,6 +75,11 @@
             icon: 'el-icon-s-promotion',
             index: '/ddos',
             title: 'ddos防护攻击'
+          },
+          {
+            icon: 'el-icon-cpu',
+            index: '/cpu',
+            title: 'cpu信息'
           }
         ]
       }
@@ -83,5 +88,7 @@
 </script>
 
 <style scoped>
-
+  #sidebar >>> .el-menu {
+    border-right: solid 0px #e6e6e6;
+  }
 </style>

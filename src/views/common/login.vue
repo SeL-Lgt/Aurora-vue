@@ -5,17 +5,21 @@
       <el-card class="myCard" shadow="always">
         <h1 style="color:#fff;text-align: center;font-size: 3em">Login</h1>
         <el-form :model="form" :rules="form" :ref="form">
+          <p>账号:admin&nbsp;&nbsp;密码:admin</p>
           <el-form-item prop="account">
-            <el-input v-model="form.account" placeholder="username">
+            <el-input v-model="form.account" placeholder="username" @blur="inputUserBlur()"
+                      @keyup.enter.native="loginBtn()">
             </el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input v-model="form.password" placeholder="password" type="password">
+            <el-input v-model="form.password" placeholder="password" type="password" @blur="inputPsdBlur()"
+                      @keyup.enter.native="loginBtn()">
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button class="SignButton" @click="$router.push({name:'home'})">Sign in</el-button>
+            <el-button class="SignButton" @click="loginBtn">Sign in</el-button>
           </el-form-item>
+
         </el-form>
       </el-card>
     </div>
@@ -29,8 +33,7 @@
       return {
         form: {
           account: null,
-          password: null,
-          authority: null
+          password: null
         },
         starsCount: 800,//星星数量
         distance: 800,//间隔
@@ -102,7 +105,51 @@
         requestAnimationFrame(animate);
       }
     },
-    methods: {}
+    methods: {
+      inputUserBlur() {
+        if (this.form.account == '' || this.form.account == null) {
+          this.$message({
+            message: '用户名不能为空',
+            type: 'warning'
+          });
+          return false;
+        } else
+          return true;
+      },
+      inputPsdBlur() {
+        if (this.form.password == '' || this.form.password == null) {
+          this.$message({
+            message: '密码不能为空',
+            type: 'warning'
+          });
+          return false;
+        } else
+          return true;
+      },
+      loginBtn() {
+        if (this.inputUserBlur() && this.inputPsdBlur()) {
+          this.form.account = this.form.account.toLowerCase();
+          this.form.password = this.form.password.toLowerCase();
+          if (this.form.account != 'admin' && this.form.password != 'admin') {
+            this.$message({
+              message: '账号或密码不正确',
+              type: 'error'
+            });
+          } else {
+            this.$message({
+              message: '登录成功',
+              type: 'success'
+            });
+            localStorage.setItem('username', JSON.stringify(this.account));
+            this.account = '';
+            this.password = '';
+            this.$router.push('/home')
+          }
+        }
+      }
+
+    }
+
   }
 </script>
 
@@ -187,7 +234,8 @@
     background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
     text-transform: uppercase;
   }
-  .SignButton:hover{
+
+  .SignButton:hover {
     color: #22affa;
   }
 

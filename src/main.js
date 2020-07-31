@@ -12,8 +12,18 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title}`;
-  next();
+  if (to.meta.requireAuth) {
+    if (localStorage.getItem('username')) {
+      document.title = `${to.meta.title}`;
+      next();
+    } else {
+      next({
+        path: '/login'
+      })
+    }
+  } else {
+    next();
+  }
 })
 
 new Vue({

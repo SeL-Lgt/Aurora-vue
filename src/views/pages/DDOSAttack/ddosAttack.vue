@@ -111,162 +111,18 @@
             title: 'operation',
             key: 'operation'
           }],
-        // tableData: [
-        //   {
-        //     "id": 11,
-        //     "time": "2020-07-30 16:36:14",
-        //     "grade": 0,
-        //     "intoerror": [
-        //       {
-        //         "id": 1,
-        //         "order": 0,
-        //         "rate": 23.75,
-        //         "name": "GigabitEthernet1",
-        //         "news": "GigabitEthernet1接口一切正常",
-        //         "operation": null
-        //       },
-        //       {
-        //         "id": 2,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "GigabitEthernet2",
-        //         "news": "GigabitEthernet2接口一切正常",
-        //         "operation": null
-        //       },
-        //       {
-        //         "id": 3,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "GigabitEthernet3",
-        //         "news": "GigabitEthernet3接口一切正常",
-        //         "operation": null
-        //       },
-        //       {
-        //         "id": 7,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "Loopback100",
-        //         "news": "Loopback100接口一切正常",
-        //         "operation": null
-        //       },
-        //       {
-        //         "id": 0,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "Control Plane",
-        //         "news": "Control Plane接口一切正常",
-        //         "operation": null
-        //       }
-        //     ]
-        //   },
-        //   {
-        //     "id": 10,
-        //     "time": "2020-07-30 16:36:06",
-        //     "grade": 0,
-        //     "intoerror": [
-        //       {
-        //         "id": 1,
-        //         "order": 0,
-        //         "rate": 21.26,
-        //         "name": "GigabitEthernet1",
-        //         "news": "GigabitEthernet1接口一切正常",
-        //         "operation": null
-        //       },
-        //       {
-        //         "id": 2,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "GigabitEthernet2",
-        //         "news": "GigabitEthernet2接口一切正常",
-        //         "operation": null
-        //       },
-        //       {
-        //         "id": 3,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "GigabitEthernet3",
-        //         "news": "GigabitEthernet3接口一切正常",
-        //         "operation": null
-        //       },
-        //       {
-        //         "id": 7,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "Loopback100",
-        //         "news": "Loopback100接口一切正常",
-        //         "operation": null
-        //       },
-        //       {
-        //         "id": 0,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "Control Plane",
-        //         "news": "Control Plane接口一切正常",
-        //         "operation": null
-        //       }
-        //     ]
-        //   },
-        //   {
-        //     "id": 9,
-        //     "time": "2020-07-30 15:58:06",
-        //     "grade": 0,
-        //     "intoerror": [
-        //       {
-        //         "id": 1,
-        //         "order": 0,
-        //         "rate": 11.67,
-        //         "name": "GigabitEthernet1",
-        //         "news": "正常"
-        //       },
-        //       {
-        //         "id": 2,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "GigabitEthernet2",
-        //         "news": "正常"
-        //       },
-        //       {
-        //         "id": 3,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "GigabitEthernet3",
-        //         "news": "正常"
-        //       },
-        //       {
-        //         "id": 7,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "Loopback100",
-        //         "news": "正常"
-        //       },
-        //       {
-        //         "id": 0,
-        //         "order": 0,
-        //         "rate": 0,
-        //         "name": "Control Plane",
-        //         "news": "正常"
-        //       }
-        //     ]
-        //   },
-        //   {
-        //     "id": 1,
-        //     "time": "2020-07-30 15:53:06",
-        //     "grade": 0,
-        //     "intoerror": null
-        //   }
-        // ]
         tableData: [],
       }
     },
     methods: {
       Open() {
         let timer = setInterval(() => {
-          if (this.status == true)
+          if (this.status == true) {
+            console.log("2");
             this.getDDOS();
-          else
+          } else
             this.fun(timer);
         }, 60000)
-
       },
       fun(timer) {
         setTimeout(() => {
@@ -276,13 +132,13 @@
       getDDOS() {
         if (this.status == true) {
           this.$api.axiosGetJson("/RestconfApiDataFunctionThree").then(res => {
+            console.log("1");
             console.log(res);
             this.tableData = res;
           })
         }
       }
     }
-
   }
 </script>
 
