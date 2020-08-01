@@ -42,18 +42,6 @@ export default new Router({
         requireAuth: false
       },
       component: () => import('@/views/common/login')
-    }, {
-      path: '/registered',
-      name: 'registered',
-      meta: {
-        title: '注册',
-        requireAuth: true
-      },
-      component: () => import('@/views/common/registered')
-    },
-    {
-      path: '*',
-      redirect: '/404'
     }
   ],
   mode: 'hash'
