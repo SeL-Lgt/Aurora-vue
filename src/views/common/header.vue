@@ -1,9 +1,9 @@
 <template>
   <!--折叠按钮-->
   <div id="m-header">
-    <div class="collapse-btn" @click="collapseChange">
-      <i v-if="!collapse" class="el-icon-s-fold"></i>
-      <i v-else class="el-icon-s-unfold"></i>
+    <div class="collapse-btn" @click.native="collapseChange">
+      <i v-if="!collapse" class="el-icon-user-solid"></i>
+      <i v-else class="el-icon-user-solid"></i>
     </div>
     <el-row>
       <el-col :span="19">
