@@ -79,7 +79,7 @@
           {
             icon: 'el-icon-cpu',
             index: '/cpu',
-            title: 'cpu进程信息'
+            title: 'cpu线程信息'
           }
         ]
       }
