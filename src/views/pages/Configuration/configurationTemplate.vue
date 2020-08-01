@@ -79,7 +79,8 @@
         </el-col>
         <el-col :span="10">
           <p>已选择模板（并按此顺序配置）</p>
-          <el-table :data="rightData" ref="rightTemp" @selection-change="checkRight" max-height="250">
+          <el-table :data="rightData" v-loading="loading" element-loading-text="正在配置中" element-loading-spinner="el-icon-loading" ref="rightTemp" @selection-change="checkRight"
+                    max-height="250">
             <el-table-column type="selection"></el-table-column>
             <el-table-column prop="id" label="ID" width="50"></el-table-column>
             <el-table-column prop="modelname" label="模板名字"></el-table-column>
@@ -154,6 +155,8 @@
         modelCard: [],
         //批量配置模板
         dialogTableVisible: false,
+        //loading状态
+        loading: false,
         /**
          * 穿梭框
          * Data为表格数据
@@ -286,12 +289,33 @@
        * 设备配置模板
        */
       submitDevice() {
+        this.loading = true;
         let id = [];
         for (const index in this.rightData) {
           id.push(this.rightData[index].id);
         }
         this.$api.axiosPostJson("/RestconfApiDataFunctionTwo", {id: id}).then(res => {
           console.log(res);
+          for (let i in res) {
+            if (res[i].code == 401) {
+              console.log(res[i].id);
+              this.timer = window.setTimeout(() => {
+                this.$message({
+                  type: 'error',
+                  message: '模板' + res[i].id + '配置失败'
+                });
+              }, 0)
+            } else {
+              console.log(res[i].id);
+              this.timer = window.setTimeout(() => {
+                this.$message({
+                  type: 'success',
+                  message: '模板' + res[i].id + '配置成功'
+                });
+              }, 0)
+            }
+            this.loading = false;
+          }
         })
 
       },
@@ -367,7 +391,6 @@
           type: 'warning'
         }).then(() => {
           this.deleteTemplate(id);
-
         }).catch(() => {
           this.$message({
             type: 'info',

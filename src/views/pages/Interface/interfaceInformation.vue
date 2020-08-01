@@ -4,7 +4,8 @@
       <!--
          表格位置
      -->
-      <el-table :data="tableData" empty-text="正在请求数据，请稍等">
+      <el-table :data="tableData" v-loading="loading" element-loading-text="正在获取数据"
+                element-loading-spinner="el-icon-loading">
         <div v-for="(item,index) in tableListName" :key="index">
           <el-table-column
               :prop="item.key"
@@ -51,10 +52,10 @@
         </el-form-item>
         <div v-for="(itemOne,indexOne) in tempData.ipv4" :key="indexOne">
           <el-form-item label="ipv4地址" :prop="`ipv4[${indexOne}].ip`">
-            <el-input v-model="tempData.ipv4[indexOne].ip"></el-input>
+            <el-input v-model="tempData.ipv4[indexOne].ip" placeholder="请按照这种格式:1.1.1.1"></el-input>
           </el-form-item>
           <el-form-item label="子网掩码" :prop="`ipv4[${indexOne}].netmask`">
-            <el-input v-model="tempData.ipv4[indexOne].netmask"></el-input>
+            <el-input v-model="tempData.ipv4[indexOne].netmask" placeholder="请按照这种格式:255.255.255.0"></el-input>
           </el-form-item>
         </div>
         <el-form-item label="接口状态" prop="enabled">
@@ -77,9 +78,11 @@
 
 <script>
   export default {
+    inject: ['reload'],
     name: "interfaceInformation",
     data() {
       return {
+        loading: true,
         alertType: null,
         dialog: false,//抽屉
         tableListName: [
@@ -131,6 +134,7 @@
             this.alertType = res;
           }
           this.tableData = res;
+          this.loading = false;
           console.log(res);
         })
       },
@@ -138,25 +142,25 @@
        * 修改提交
        */
       postInterface() {
-        // let data=[];
-        // data=[{
-        //
-        // }]
-        this.$api.axiosPostJson("/RestconfApiDataFunctionOne", [{
-          name: this.tempData.name,
-          enabled: this.tempData.enabled,
-          type: this.tempData.type,
-          description: this.tempData.description,
-          ipv4: this.tempData.ipv4
-        }]).then(res => {
-          console.log(res);
-          if (res == 400) {
-            this.$message({message: "修改失败", type: "error"});
-          } else {
-            this.reload();
-            this.$message({message: "修改成功", type: "success"});
-          }
-        })
+        if (this.tempData.name == null || this.tempData.enabled == null || this.tempData.type == null || this.tempData.description == null || this.tempData.ipv4[0].ip == null || this.tempData.ipv4[0].netmask == null || this.tempData.name == "" || this.tempData.enabled == "" || this.tempData.type == "" || this.tempData.description == "" || this.tempData.ipv4[0].ip == "" || this.tempData.ipv4[0].netmask == "") {
+          this.$message({message: "不能有空", type: "error"});
+        } else {
+          this.$api.axiosPostJson("/RestconfApiDataFunctionOne", [{
+            name: this.tempData.name,
+            enabled: this.tempData.enabled,
+            type: this.tempData.type,
+            description: this.tempData.description,
+            ipv4: this.tempData.ipv4
+          }]).then(res => {
+            console.log(res);
+            if (res != 400) {
+              this.reload();
+              this.$message({message: "修改成功", type: "success"});
+            } else {
+              this.$message({message: "修改失败，请检查ip、子网掩码格式", type: "error"});
+            }
+          })
+        }
       },
       /**
        * 重置

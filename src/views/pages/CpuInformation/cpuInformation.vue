@@ -1,9 +1,7 @@
 <template>
   <div id="cpuInformation">
-    <el-card>
-      <template v-if="imgBase64[0]==null">
-        <p>数据正在请求中请等待</p>
-      </template>
+    <el-card v-loading="loading" element-loading-text="数据正在请求中" element-loading-spinner="el-icon-loading"
+             element-loading-background="#fff">
       <el-radio-group v-model="card">
         <el-radio-button v-for="(item,index) in imgBase64"
                          :key="index"
@@ -16,7 +14,7 @@
       </el-radio-group>
 
       <template v-if="card!=null">
-        <el-image :src="imgUrl[card]" fit="cover"></el-image>
+        <el-image :src="imgUrl[card]" fit="cover" style="width: 90%"></el-image>
       </template>
     </el-card>
   </div>
@@ -27,6 +25,7 @@
     name: "cpuInformation",
     data() {
       return {
+        loading: true,
         imgBase64: [],
         imgUrl: [],
         card: null
@@ -44,6 +43,7 @@
               this.imgUrl.push('data:image/png;base64,' + this.imgBase64[i].base64);
             }
             this.card = 0;
+            this.loading = false;
           }
         })
       },
