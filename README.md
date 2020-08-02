@@ -29,9 +29,13 @@ npm run lint
     |    |    | -- images                                          
     |    |    | -- css
     |    | -- views                                                // 页面视图
-    |    |    | -- common                                          // 全局组件
+    |    |    | -- common                                          // 全局组件(头部、导航栏等)
     |    |    | -- pages                                           // 模块目录。里面的文件夹用 大驼峰 命名
-    |    |    |    | -- BasicInformation                           // 基本资料      --作为例子需要改名
+    |    |    |    | -- Home                                       // 系统首页模块
+    |    |    |    | -- Interface                                  // 设备接口模块
+    |    |    |    | -- Configuration                              // 配置模板模块
+    |    |    |    | -- DDOSAttack                                 // ddos防护攻击模块
+    |    |    |    | -- CpuInformation                             // cpu进程信息模块
     |    | -- router                                               // 路由
     |    | -- App.vue                                              // 页面入口文件
     |    | -- main.js                                              // 程序入口文件，加载各种公共组件
