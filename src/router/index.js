@@ -34,7 +34,8 @@ export default new Router({
         DDOSAttack,
         cpuInformation
       ]
-    }, {
+    },
+    {
       path: '/login',
       name: 'login',
       meta: {

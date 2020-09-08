@@ -38,6 +38,10 @@
       </el-col>
     </el-row>
 
+    <button class="my-button my-button-position">
+      <span>更多配置模板</span>
+    </button>
+
     <!--批量配置模板-->
     <el-dialog title="批量配置模板" :visible.sync="dialogTableVisible" width="80%">
       <el-row :gutter="20">
@@ -79,7 +83,8 @@
         </el-col>
         <el-col :span="10">
           <p>已选择模板（并按此顺序配置）</p>
-          <el-table :data="rightData" v-loading="loading" element-loading-text="正在配置中" element-loading-spinner="el-icon-loading" ref="rightTemp" @selection-change="checkRight"
+          <el-table :data="rightData" v-loading="loading" element-loading-text="正在配置中"
+                    element-loading-spinner="el-icon-loading" ref="rightTemp" @selection-change="checkRight"
                     max-height="250">
             <el-table-column type="selection"></el-table-column>
             <el-table-column prop="id" label="ID" width="50"></el-table-column>
@@ -132,7 +137,7 @@
         <el-form-item>
           <el-button v-show="buttonType==1" type="primary" @click="putTemplate">修改</el-button>
           <el-button v-show="buttonType==2" type="primary" @click="addTemplate">添加</el-button>
-          <el-button @click="resetForm(templateForm)">取消</el-button>
+          <el-button @click="resetForm()">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -192,31 +197,32 @@
         /**
          * 图片
          */
-        imgArray: [{
-          id: 1,
-          name: 'ACL',
-          url: img1
-        }, {
-          id: 2,
-          name: 'DHCP',
-          url: img2
-        }, {
-          id: 3,
-          name: 'isis',
-          url: img3
-        }, {
-          id: 4,
-          name: 'NAT',
-          url: img4
-        }, {
-          id: 5,
-          name: 'ospf',
-          url: img5
-        }, {
-          id: 6,
-          name: '环回口',
-          url: img6
-        },]
+        imgArray: [
+          {
+            id: 1,
+            name: 'ACL',
+            url: img1
+          }, {
+            id: 2,
+            name: 'DHCP',
+            url: img2
+          }, {
+            id: 3,
+            name: 'isis',
+            url: img3
+          }, {
+            id: 4,
+            name: 'NAT',
+            url: img4
+          }, {
+            id: 5,
+            name: 'ospf',
+            url: img5
+          }, {
+            id: 6,
+            name: '环回口',
+            url: img6
+          },]
       }
     },
     created() {
@@ -325,14 +331,25 @@
        */
       dialogFormShow(val) {
         this.dialogFormVisible = true;
-        console.log(val);
+        let id = [];
+        id.push(val);
         if (val) {
           this.buttonType = 1;
-          this.$api.axiosPostJson("/SelectWhereId", {id: val}).then(res => {
+          this.$api.axiosPostJson("/RestconfApiDataFunctionTwoMysql/select", {id: id}).then(res => {
             console.log(res);
             this.templateForm = res[0];
+            this.temp = JSON.parse(JSON.stringify(this.templateForm))
           })
         } else {
+          this.temp = {
+            id: null,
+            modelname: null,
+            remakes: null,
+            introduce: null,
+            url: null,
+            model: null,
+            logo: null
+          };
           this.buttonType = 2;
           this.templateForm = JSON.parse(JSON.stringify(this.temp))
         }
@@ -341,7 +358,7 @@
        * 新增、修改模板
        */
       addTemplate() {
-        this.$api.axiosPostJson("/ModifyToAddModelInMysql", {
+        this.$api.axiosPostJson("/RestconfApiDataFunctionTwoMysql/add", {
           modelname: this.templateForm.modelname,
           remarks: this.templateForm.remakes,
           introduce: this.templateForm.introduce,
@@ -356,7 +373,7 @@
         })
       },
       putTemplate() {
-        this.$api.axiosPostJson("/ModifyToModelInMysql", {
+        this.$api.axiosPostJson("/RestconfApiDataFunctionTwoMysql/modify", {
           id: this.templateForm.id,
           modelname: this.templateForm.modelname,
           remarks: this.templateForm.remakes,
@@ -375,8 +392,9 @@
         })
       },
 
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      resetForm() {
+        // this.$refs[formName].resetFields();
+        this.templateForm = JSON.parse(JSON.stringify(this.temp))
       },
 
       /**
@@ -402,9 +420,9 @@
        * 删除模板
        */
       deleteTemplate(val) {
-        this.$api.axiosPostJson("/ModifyToDeleteModelInMysql", {id: val}).then(res => {
+        this.$api.axiosPostJson("/RestconfApiDataFunctionTwoMysql/del", {id: val}).then(res => {
           console.log(res);
-          if (res[0].code == "200") {
+          if (res[0].error == "200") {
             this.$message({
               type: 'success',
               message: '删除成功!'
@@ -449,5 +467,29 @@
 
   .el-select {
     width: 100%;
+  }
+
+  .my-button-position {
+    position: absolute;
+    right: 20px;
+    top: 30%;
+    transform: translateY(50%);
+    z-index: 9;
+  }
+
+  .my-button {
+    padding: 40px 20px;
+    background-color: #409EFF;
+    border: 1px solid #409EFF;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-size: 17px;
+    font-weight: 500;
+    color: #FFF;
+    outline: none;
+  }
+
+  .my-button span {
+    writing-mode: vertical-rl;
   }
 </style>

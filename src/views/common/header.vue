@@ -1,9 +1,8 @@
 <template>
   <!--折叠按钮-->
   <div id="m-header">
-    <div class="collapse-btn" @click.native="collapseChange">
-      <i v-if="!collapse" class="el-icon-user-solid"></i>
-      <i v-else class="el-icon-user-solid"></i>
+    <div class="collapse-btn">
+      <i class="el-icon-user-solid"></i>
     </div>
     <el-row>
       <el-col :span="19">
@@ -29,9 +28,6 @@
       };
     },
     methods: {
-      collapseChange() {
-        this.collapse = !this.collapse;
-      },
       officeExit(){
         localStorage.clear();
         this.$message({message: "退出成功", type: "success"});
