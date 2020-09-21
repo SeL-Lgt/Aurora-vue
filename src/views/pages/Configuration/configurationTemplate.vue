@@ -14,7 +14,7 @@
         <el-card>
           <div slot="header" class="clearfix">
             <span style="color:#0097D3;font-size:20px;font-weight: 700;font-family:'Helvetica Neue'">
-              {{item.remakes}}
+              {{item.modelname}}
             </span>
             <el-button style="float: right; transform: translateY(-15%);" type="text" @click="open(item.id)">
               <i class="el-icon-delete"></i>
@@ -30,7 +30,7 @@
             </div>
             <p style="font-family:'Helvetica Neue'">
               <span style="color:#0097D3;font-size:15px;font-weight: 700;font-family:'Helvetica Neue'">模板名字：</span>
-              {{item.modelname}}
+              {{item.remakes}}
             </p>
             <p>{{item.introduce}}</p>
           </div>
@@ -233,7 +233,7 @@
        * 获取配制模板
        */
       getTemplate() {
-        this.$api.axiosGetJson("/RestconfApiDataFunctionTwo").then(res => {
+        this.$api.axiosGetJson("/RestconfApiDataFunctionTwo/select").then(res => {
           console.log(res);
           this.modelCard = res;
         })

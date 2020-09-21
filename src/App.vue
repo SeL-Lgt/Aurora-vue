@@ -7,6 +7,9 @@
 <script>
   export default {
     name: 'app',
+    created() {
+      this.addQuneeJs();
+    },
     provide() {
       return {
         reload: this.reload
@@ -18,6 +21,12 @@
       }
     },
     methods: {
+      addQuneeJs() {
+        const s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'http://demo.qunee.com/lib/qunee-min.js';
+        document.body.appendChild(s);
+      },
       reload() {
         this.isRouterAlive = false;
         this.$nextTick(function () {

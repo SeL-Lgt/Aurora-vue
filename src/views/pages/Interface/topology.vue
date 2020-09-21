@@ -2,8 +2,10 @@
   <div id="topology">
     <!--    <iframe id="topos" :src="url+'/topos'" scroll="no" frameborder="0"-->
     <!--            style="position:relative;overflow: hidden"></iframe>-->
-    <div id="htstr" v-html="html">
-    </div>
+    <el-card>
+      <div id="htstr" v-html="html">
+      </div>
+    </el-card>
     <!--    <div  v-html="html2" ></div>-->
   </div>
 </template>
@@ -44,55 +46,11 @@
     //   }
     // },
     created() {
-      this.addQuneeJs();
       this.getTopology();
     },
     methods: {
-      addQuneeJs(){
-        const s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = 'http://demo.qunee.com/lib/qunee-min.js';
-        document.body.appendChild(s);
-      },
       getTopology() {
-        this.$api.axiosPostJson('/topos', {
-          height:1000,
-          data: [
-            {
-              "name": "DNAC",
-              "coordinate-x": 100,
-              "coordinate-y": -50,
-              "image": "Q.Graphs.server",
-              "size": {
-                "width": 30,
-                "height": -1
-              },
-              "type": "Name: DNA-Center Controller",
-              "ipaddress": null,
-              "hostname": null,
-              "macAddress": null,
-              "edge": null
-            },
-            {
-              "name": "C3850_A",
-              "coordinate-x": 100,
-              "coordinate-y": 160,
-              "image": "http://demo.qunee.com/editor/data/cisco/multilayerSwitch.png",
-              "size": {
-                "width": 50,
-                "height": -1
-              },
-              "ipaddress": "10.10.20.85",
-              "hostname": "spine1.abc.inc",
-              "macAddress": "70:01:b5:5d:1b:00",
-              "type": "Type: Cisco Catalyst38xx stack-able ethernet switch",
-              "edge": {
-                "start": "DNAC",
-                "end": "C3850_A"
-              }
-            }
-          ]
-        }).then(res => {
+        this.$api.axiosGetJson('/topos').then(res => {
           this.html = res;
           this.$nextTick(() => {
             console.log(1)
