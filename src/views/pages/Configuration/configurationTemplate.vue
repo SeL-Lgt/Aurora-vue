@@ -10,10 +10,15 @@
     </el-card>
 
     <div v-show="isShow==false">
+      <!--
+        按钮
+      -->
       <el-row>
         <el-col :span="12">
           <el-button type="primary" @click="getDBModel(),dialog=true">数据库模板管理</el-button>
-          <el-button type="primary">新增思科项目模板</el-button>
+          <el-button type="primary" :disabled="projectName==null?true:false" @click="ciscoAddModelDialog=true">
+            新增思科项目模板
+          </el-button>
         </el-col>
         <el-col :span="12">
           <el-radio-group v-model="radio1" style="float:right">
@@ -22,9 +27,22 @@
           </el-radio-group>
         </el-col>
       </el-row>
-
+      <!--
+        主界面
+      -->
       <el-card>
-        <el-table v-show="radio1=='表格'">
+        <el-table v-show="radio1=='表格'" :data="ciscoTableData" v-loading="tableLoading" element-loading-text="正在请求中">
+          <el-table-column v-for="(item,index) in ciscoListName" :key="index"
+                           align="center"
+                           :prop="item.key"
+                           :label="item.title"></el-table-column>
+          <el-table-column label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button type="text" @click="ciscoDeploy(scope.row)">部署</el-button>
+              <el-button type="text" @click="ciscoUpdateModelForm(scope.row)">修改</el-button>
+              <el-button type="text" @click="ciscoDeleteModel(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </el-card>
     </div>
@@ -34,9 +52,10 @@
      -->
     <el-drawer title="各类项目" :visible.sync="drawer" :withHeader="false" size="20%">
       <p style="text-align: center;margin-bottom: 10px;">请选择项目模块</p>
-      <el-menu v-loading="loading" element-loading-text="正在请求中" style="margin-bottom: 40px">
+      <el-menu v-loading="loading" element-loading-text="正在请求中" style="margin-bottom: 40px;">
         <div v-for="(item,index) in NavigationBar" :key="index">
-          <el-menu-item :index="item.id.toString()">{{item.name}}</el-menu-item>
+          <el-menu-item :index="item.id.toString()" @click="ciscoGetProjectModel(item.name)">{{item.name}}
+          </el-menu-item>
         </div>
       </el-menu>
       <el-button type="primary" style="position:fixed;flex: 0;bottom:0;width: calc(20vw);border-radius: 0"
@@ -126,6 +145,70 @@
         <el-button @click="ciscoProjectDialog=false,ciscoAddProject=null">取消</el-button>
       </el-row>
     </el-dialog>
+    <!--
+      思科修改项目模板
+    -->
+    <el-dialog title="修改思科项目模板" :visible.sync="ciscoUpdateModelDialog" width="30%">
+      <el-form :ref="ciscoUpdateForm" :model="ciscoUpdateForm" label-width="100px">
+        <el-form-item label="ID" prop="id">
+          <el-input v-model="ciscoUpdateForm.id" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="mid" prop="mid">
+          <el-input v-model="ciscoUpdateForm.mid"></el-input>
+        </el-form-item>
+        <el-form-item label="modelName" prop="modelName">
+          <el-input v-model="ciscoUpdateForm.modelName"></el-input>
+        </el-form-item>
+        <el-form-item label="model" prop="model">
+          <el-input type="textarea" v-model="ciscoUpdateForm.model"></el-input>
+        </el-form-item>
+        <el-form-item label="介绍" prop="introduce">
+          <el-input v-model="ciscoUpdateForm.introduce"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="ciscoUpdateModel()">提交修改</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!--
+      思科新增模板
+    -->
+    <el-dialog title="添加思科项目模板" :visible.sync="ciscoAddModelDialog" width="30%">
+      <el-form :ref="ciscoAddForm" :model="ciscoAddForm" label-width="100px">
+        <el-form-item label="项目名字" v-model="ciscoAddForm.name">
+          <el-input disabled :value="projectName"></el-input>
+        </el-form-item>
+        <el-form-item label="数据库模板">
+          <el-row style="margin-bottom: 0">
+            <el-col :span="14">
+              <el-select v-model="ciscoAddForm.id" placeholder="请选择数据库模板" @change="getDBModelById(ciscoAddForm.id)">
+                <el-option v-for="(item,index) in DBModel" :key="index" :label="item.modelname"
+                           :value="item.id"></el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="10">
+              <el-button type="text" style="margin-left: 20px" @click="dialog=true">数据库模板管理</el-button>
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-divider>模板信息</el-divider>
+        <el-form :ref="DBForm" :model="DBForm" label-width="100px">
+          <template v-for="(item,index) in DBModelTable">
+            <el-form-item v-if="item.key=='id'?false:true" :key="index" :label="item.title" :prop="item.key">
+              <el-input disabled v-model="DBForm[item.key]"></el-input>
+            </el-form-item>
+          </template>
+          <el-form-item label="model" prop="model">
+            <el-input disabled type="textarea" v-model="DBForm.model"></el-input>
+          </el-form-item>
+        </el-form>
+      </el-form>
+      <div align="center">
+        <el-button type="primary" @click="ciscoAddModel">添加模板</el-button>
+        <el-button @click="ciscoAddModelDialog=false">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -147,13 +230,9 @@
           {
             title: "ID",
             key: "id"
-          }
-          , {
+          }, {
             title: "模板名字",
             key: "modelname"
-          }, {
-            title: "？？",
-            key: "remakes"
           }, {
             title: "详细介绍",
             key: "introduce"
@@ -173,11 +252,42 @@
 
         ciscoProjectDialog: false,
         ciscoAddProject: null,
-        ciscoAddLoading: false
+        ciscoAddLoading: false,
+
+        ciscoListName: [
+          {
+            title: "ID",
+            key: "id"
+          }, {
+            title: "介绍",
+            key: "introduce"
+          }, {
+            title: "mid",
+            key: "mid"
+          }, {
+            title: "modelName",
+            key: "modelName"
+          }, {
+            title: "model",
+            key: "model"
+          }],
+        ciscoTableData: [],
+        tableLoading: false,
+        projectName: null,  //所选择项目的名字
+
+        ciscoUpdateModelDialog: false,
+        ciscoUpdateForm: {},
+
+        ciscoAddModelDialog: false,
+        ciscoAddForm: {
+          name: "",
+          id: ""
+        }
       }
     },
     created() {
       this.getNavigationBar();
+      this.getDBModel();
     },
     methods: {
       /**
@@ -280,6 +390,110 @@
               message: '添加成功!'
             });
             this.reload();
+          }
+        })
+      },
+      /**
+       * 获取某个项目的所有模板数据
+       */
+      ciscoGetProjectModel(name) {
+        this.tableLoading = true;
+        this.$api.axiosPostJson("/RestconfApiDataFunctionTwo/GetProjectModel", {name: name}).then(res => {
+          console.log(res);
+          this.ciscoTableData = res;
+          this.tableLoading = false;
+          this.projectName = name;
+        })
+      },
+      /**
+       * 添加该项目模板
+       */
+      ciscoAddModel() {
+        this.$api.axiosPostJson("/RestconfApiDataFunctionTwo/CreateModel", {
+          name: this.ciscoAddForm.name,
+          id: [this.ciscoAddForm.id]
+        }).then(res => {
+          console.log(res);
+        })
+      },
+      /**
+       * 部署项目模板
+       * @param
+       */
+      ciscoDeploy(model) {
+        this.$message({
+          type: 'info',
+          message: '正在部署中!'
+        });
+        this.$api.axiosPostJson("/RestconfApiDataFunctionTwo/DeployProjectModel", {
+          projectname: this.projectName,
+          modelname: model.modelName,
+          id: model.id
+        }).then(res => {
+          if (res == '400') {
+            this.$message({
+              type: 'error',
+              message: '添加失败!'
+            });
+          } else if (res == '500') {
+            this.$message({
+              type: 'warning',
+              message: '该名字已存在!'
+            });
+          } else {
+            this.$message({
+              type: 'success',
+              message: '添加成功!'
+            });
+          }
+        })
+      },
+      /**
+       * 项目模板赋值
+       */
+      ciscoUpdateModelForm(model) {
+        this.ciscoUpdateForm = JSON.parse(JSON.stringify(model));
+        this.ciscoUpdateModelDialog = true;
+        console.log(this.ciscoUpdateForm);
+      },
+      /**
+       * 修改思科项目模板
+       */
+      ciscoUpdateModel() {
+        console.log(this.ciscoUpdateForm.model);
+        this.$api.axiosPostJson("/RestconfApiDataFunctionTwo/UpdataProjectModel", {
+          name: this.projectName,
+          introduce: this.ciscoUpdateForm.introduce,
+          mid: this.ciscoUpdateForm.mid,
+          modelData: this.ciscoUpdateForm.model,
+          modelName: this.ciscoUpdateForm.modelName
+        }).then(res => {
+          console.log(res);
+        })
+      },
+      /**
+       * 删除思科项目模板
+       */
+      ciscoDeleteModel(model) {
+        this.$message({
+          type: 'info',
+          message: '正在删除中!'
+        });
+        this.$api.axiosPostJson("/RestconfApiDataFunctionTwo/DelProjectModel", {
+          name: this.projectName,
+          id: [model.mid]
+        }).then(res => {
+          if (res[0].code == '202') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            this.reload();
+          } else {
+            this.$message({
+              type: 'error',
+              message: '删除失败!'
+            });
           }
         })
       }
