@@ -474,7 +474,7 @@
     right: 20px;
     top: 30%;
     transform: translateY(50%);
-    z-index: 9;
+    z-index: 999;
   }
 
   .my-button {

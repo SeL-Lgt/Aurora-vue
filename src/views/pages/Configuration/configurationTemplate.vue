@@ -2,7 +2,7 @@
   <div id="configurationTemplate">
 
     <button class="my-button my-button-position" @click="drawer=true">
-      <span>更多配置模板</span>
+      <span>配置模板</span>
     </button>
 
     <el-card v-show="isShow==true">
@@ -301,6 +301,7 @@
     created() {
       this.getNavigationBar();
       this.getDBModel();
+      this.openMessage();
     },
     methods: {
       /**
@@ -550,6 +551,15 @@
             });
           }
         })
+      },
+
+      openMessage() {
+        const h = this.$createElement;
+
+        this.$notify({
+          title: '功能二流程',
+          message: h('i', {style: 'color: teal'}, '请先选择需要查看的配置模板')
+        });
       }
     }
   }
@@ -565,7 +575,7 @@
     right: calc(1.5vw);
     top: calc(30vh);
     transform: translateY(50%);
-    z-index: 9;
+    z-index: 999;
   }
 
   .my-button {
