@@ -127,7 +127,7 @@
       },
       getDDOS() {
         if (this.status == true) {
-          this.$api.axiosGetJson("/RestconfApiDataFunctionThree").then(res => {
+          this.$api.axiosGetJson("//FunctionThree").then(res => {
             console.log(res);
             this.tableData = res;
           })

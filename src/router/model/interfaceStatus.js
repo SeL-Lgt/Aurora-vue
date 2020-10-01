@@ -21,7 +21,7 @@ export default {
       path: 'topology',
       name: 'topology',
       meta: {
-        title: '拓扑图',
+        title: '网络拓扑图',
         requireAuth: true
       },
       component: topology

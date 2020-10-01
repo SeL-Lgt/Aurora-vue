@@ -30,11 +30,8 @@
     mounted() {
       function changeMobsIframe() {
         const topos = document.getElementById('topos');
-        const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
-        console.log(windowWidth + "高：" + windowHeight)
         if (windowHeight < 750) {
-          console.log(topos);
           topos.style.height = 600 + 'px'; //数字是页面布局宽度差值
         } else {
           topos.style.height = 60 + 'vh'; //数字是页面布局高度差

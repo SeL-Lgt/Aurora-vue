@@ -64,7 +64,7 @@
           {
             icon: 'el-icon-s-data',
             index: '/interfaceStatus',
-            title: '设备接口状态'
+            title: '网络拓扑图'
           },
           {
             icon: 'el-icon-s-check',
@@ -79,7 +79,7 @@
           {
             icon: 'el-icon-cpu',
             index: '/cpu',
-            title: 'cpu线程信息'
+            title: '设备健康度'
           }
         ]
       }

@@ -10,7 +10,7 @@ export default {
     path: 'cpuInformation',
     name: 'cpuInformation',
     meta: {
-      title: 'cpu信息',
+      title: '设备健康度',
       requireAuth: true
     },
     component: cpuInformation
