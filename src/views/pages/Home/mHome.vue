@@ -5,7 +5,7 @@
       <el-col :span="6">
         <el-card @click.native="$router.push({name:'interfaceStatus'})">
           <h2>功能一</h2>
-          <p>根据nodeType的指定条件返回原始物理拓扑</p>
+          <p>根据nodeType的指定条件返回原始物理拓扑,可以方便直观DNA-C原始拓扑设备之间的关系和直接获得到设备的名字，IP地址和MAC地址等</p>
         </el-card>
       </el-col>
       <el-col :span="6">

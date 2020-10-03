@@ -6,7 +6,7 @@
     </div>
     <el-row>
       <el-col :span="19">
-        基于SDN的自动化管理CSR1kv系统
+        基于DNA-C的自动化网络管理系统
       </el-col>
       <el-col :offset="3" :span="1">
         <el-button type="text" @click="officeExit">
@@ -28,10 +28,10 @@
       };
     },
     methods: {
-      officeExit(){
+      officeExit() {
         localStorage.clear();
         this.$message({message: "退出成功", type: "success"});
-        this.$router.push({name:'login'});
+        this.$router.push({name: 'login'});
       }
     }
   }
