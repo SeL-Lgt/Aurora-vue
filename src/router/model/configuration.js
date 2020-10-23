@@ -10,7 +10,7 @@ export default {
     path: 'configurationTemplate',
     name: 'configurationTemplate',
     meta: {
-      title: '接口状态',
+      title: '配制模板',
       requireAuth: true
     },
     component: configurationTemplate
